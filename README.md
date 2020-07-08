@@ -69,15 +69,15 @@ not edit this file directly.
 The NPM package file for the project containing the project's name, version,
 and dependencies. Update this file to add or change dependencies.
 
-#### `<source directory>`
+#### `src`
 The directory that will contain all of the TypeScript source files for your plugin.
 Any new code meant to be distributed with the plugin should be placed in here.
 
-#### `<source directory>/<plugin-name>.ts`
+#### `src/<plugin-name>.ts`
 An example TypeScript class that implements the plugin interface. This example plugin
 adds a config entry to the Pod summary.
 
-#### `<source directory>/octant.d.ts`
+#### `src/octant.d.ts`
 A TypeScript module that defines the interfaces that must be implement by your plugin.
 
 #### `tsconfig.json`
@@ -113,4 +113,4 @@ Transpiles the plugin and generates a single minified JavaScript file in `<octan
 
 I would recommend having a terminal open running "```npm run plugin:watch```"
 
-You are now free to do whatever you want with the code base. Install some additional NPM libraries or types. Edit the <plugin-name>.ts file with something meaningful.
+You are now free to do whatever you want with the code base. Install some additional NPM libraries or types. Edit the `<plugin-name>.ts` file with something meaningful.
