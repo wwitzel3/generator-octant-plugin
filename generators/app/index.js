@@ -51,7 +51,8 @@ module.exports = class extends Generator {
         var generator = this;
 
         copyTemplate('src/plugin.ts.tpl', 'src/' + this.props.filename + '.ts');
-        copyTemplate('src/octant.d.ts.tpl', 'src/octant.d.ts');
+        copyTemplate('src/octant/plugin.d.ts', 'src/octant/plugin.d.ts');
+        copyTemplate('src/octant/components.ts', 'src/octant/components.ts');
         copyTemplate('package.json.tpl', 'package.json');
         copyTemplate('webpack.config.js.tpl', 'webpack.config.js');
         copyTemplate('tsconfig.json.tpl', 'tsconfig.json');

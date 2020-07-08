@@ -15,7 +15,6 @@ module: {
   rules: [
   {
      test: /\.(js|jsx|tsx|ts)$/,
-     exclude: /node_modules/,
      loader: 'babel-loader',
       options: {
     presets: [

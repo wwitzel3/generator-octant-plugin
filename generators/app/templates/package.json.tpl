@@ -35,5 +35,7 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@kubernetes/client-node": "^0.12.0"
+  }
 }
