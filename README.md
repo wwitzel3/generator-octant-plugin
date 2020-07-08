@@ -1,6 +1,6 @@
 # generator-octant-plugin
 
-A [Yeoman](http://yeoman.io) generator for generating a Octant plugin using TypeScript and Webpack
+A [Yeoman](http://yeoman.io) generator for generating a Octant plugin using TypeScript and Webpack. Writing Octant plugins with TypeScript is currently experimental and requires building Octant from source using [TypeScript plugin branch](https://github.com/wwitzel3/octant/tree/plugin-grpc).
 
 ## Features
 
