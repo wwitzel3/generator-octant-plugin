@@ -21,14 +21,15 @@ export class Navigation implements octant.Navigation {
 
   constructor(title: string, path: string, icon?: string) {
     this.title = title;
-    this.path = path;
+    this.path = "/" + path;
     this.iconName = icon;
+    this.children = [];
   }
 
   add(title: string, path: string, icon?: string) {
     this.children.push({
       title: title,
-      path: path,
+      path: this.path + "/" + path,
       iconName: icon,
     })
   }

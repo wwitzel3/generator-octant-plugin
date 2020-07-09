@@ -28,9 +28,10 @@ export interface Plugin {
     capabilities: Capabilities;
 
     tabHandler?: () => any;
-    printHandler?: (PrintRequest) => PrintResponse;
+    printHandler?: (request: PrintRequest) => PrintResponse;
     objectStatusHandler?: () => any;
     navigationHandler?: () => Navigation;
+    contentHandler?: (contentPath: string) => ContentResponse;
 }
 
 export interface GroupVersionKind {
@@ -72,7 +73,7 @@ export interface PathItem {
 }
 
 export interface Content {
-  extensionComponent: ExtensionView;
+  extensionComponent?: ExtensionView;
   viewComponents: View[];
   title: View[];
   buttonGroup?: ButtonGroupView;
