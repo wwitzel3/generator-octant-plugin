@@ -1,51 +1,86 @@
 export interface Key {
-    namespace: string
-    apiVersion: string
-    kind: string
-    name: string
+  namespace?: string;
+  apiVersion: string;
+  kind: string;
+  name?: string;
+  selector?: object;
 }
 
-export interface PrintRequest {
-    client: DashboardClient
-    objectKey: Key
+export interface ObjectRequest {
+  readonly client: DashboardClient;
+  readonly object: object;
 }
 
 export interface PrintResponse {
-    config?: any[];
-    status?: any[];
-    items?: any[];
+  config?: any[];
+  status?: any[];
+  items?: any[];
+  error?: string;
+}
+
+export interface Tab {
+  name: string;
+  contents: FlexLayoutView;
+}
+
+export interface TabResponse {
+  tab: Tab;
+}
+
+export interface ObjectStatusResponse {
+  objectStatus: PodSummary;
+}
+
+export interface ActionRequest {
+  client: DashboardClient;
+  actionName: string;
+  payload: any;
+}
+
+export interface ContentRequest {
+  client: DashboardClient;
+  contentPath: string;
+}
+
+export interface ActionResponse {
+  error?: string;
 }
 
 export interface DashboardClient {
-    Get(key: Key): any
+  Get(key: Key): any;
+  List(key: Key): any[];
+  Create(unstructured: any): string;
+  Update(unstructured: any): string;
 }
 
 export interface Plugin {
-    name: string;
-    description: string;
-    isModule: boolean;
+  name: string;
+  description: string;
+  isModule: boolean;
 
-    capabilities: Capabilities;
+  capabilities: Capabilities;
 
-    tabHandler?: () => any;
-    printHandler?: (request: PrintRequest) => PrintResponse;
-    objectStatusHandler?: () => any;
-    navigationHandler?: () => Navigation;
-    contentHandler?: (contentPath: string) => ContentResponse;
+  tabHandler?: (request: ObjectRequest) => TabResponse;
+  printHandler?: (request: ObjectRequest) => PrintResponse;
+  objectStatusHandler?: (request: ObjectRequest) => ObjectStatusResponse;
+  navigationHandler?: () => Navigation;
+  contentHandler?: (request: ContentRequest) => ContentResponse;
+  actionHandler?: (request: ActionRequest) => ActionResponse;
 }
 
 export interface GroupVersionKind {
-    group?: string,
-    version: string,
-    kind: string,
+  group?: string;
+  version: string;
+  kind: string;
 }
 
 export interface Capabilities {
-    supportPrinterConfig?: GroupVersionKind[];
-    supportPrinterStatus?: GroupVersionKind[];
-    supportPrinterItems?: GroupVersionKind[];
-    supportObjectStatus?: GroupVersionKind[];
-    supportTab?: GroupVersionKind[];
+  supportPrinterConfig?: GroupVersionKind[];
+  supportPrinterStatus?: GroupVersionKind[];
+  supportPrinterItems?: GroupVersionKind[];
+  supportObjectStatus?: GroupVersionKind[];
+  supportTab?: GroupVersionKind[];
+  actionNames?: string[];
 }
 
 export interface Navigation {
@@ -91,7 +126,7 @@ export interface View {
 }
 
 export interface TitleMetadata {
-  type: 'text' | 'link';
+  type: "text" | "link";
   title?: TitleView[];
   accessor?: string;
 }
@@ -114,7 +149,7 @@ export interface Alert {
 export interface CardView extends View {
   config: {
     body: View;
-    actions: Action[];
+    actions?: Action[];
     alert?: Alert;
   };
 }
@@ -181,7 +216,7 @@ export interface ButtonGroupView extends View {
 export interface FlexLayoutView extends View {
   config: {
     sections: FlexLayoutItem[][];
-    buttonGroup: ButtonGroupView;
+    buttonGroup?: ButtonGroupView;
   };
 }
 
