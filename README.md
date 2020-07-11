@@ -29,11 +29,12 @@ A [Yeoman](http://yeoman.io) generator for generating a Octant plugin using Type
 npm install -g generator-octant-plugin
 ```
 
-## Running the Generator
+## Using the Generator
 
 Start the Octant plugin generator.
 
 ```bash
+mkdir your-plugin && cd your-plugin
 yo octant-plugin
 ```
 
@@ -44,6 +45,18 @@ You will be prompted for the following information
    - Octant plugin path (used by plugin:watch, plugin:install)
 
 ## Working with the Generated Files
+
+Tryout the demo plugin using the install command
+
+```bash
+npm run plugin:install
+```
+
+You can have your changes get compiled and installed in real-time using the watch command. After you start the watch you can open the plugin TypeScript file in your editor and as you save changes you'll see them reflected in Octant.
+
+```bash
+npm run plugin:watch
+```
 
 ### Generated File Structure
 
