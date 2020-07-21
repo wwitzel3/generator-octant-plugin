@@ -52,7 +52,6 @@ export interface DashboardClient {
   Create(namespace: string, yaml: string): string;
   Update(unstructured: any): string;
   Delete(key: Key): string;
-  Namespace(): string;
 }
 
 export interface HTTPClient {

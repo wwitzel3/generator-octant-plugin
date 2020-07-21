@@ -51,7 +51,7 @@ export default class MyPlugin implements octant.Plugin {
 
         // set intial actionCount
         this.actionCount = 0;
-        this.currentNamespace = new BehaviorSubject(this.dashboardClient.Namespace());
+        this.currentNamespace = new BehaviorSubject("default");
     }
 
     printHandler(request: octant.ObjectRequest): octant.PrintResponse {
