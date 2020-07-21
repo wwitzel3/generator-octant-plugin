@@ -1,15 +1,36 @@
+// core-js and regenerator-runtime are requried to ensure the correct polyfills
+// are applied by babel/webpack.
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+// plugin contains interfaces your plugin can expect
+// this includes your main plugin class, response, requests, and clients.
 import * as octant from "./octant/plugin";
+
+// components containers helpers for generating the
+// objects that Octant can render to components.
 import * as c from "./octant/components";
 
+// rxjs is used to show that Observables function within
+// the Octant JavaScript runtime.
+import { Subject, BehaviorSubject } from 'rxjs';
+
+// This plugin will handle v1/Pod types.
 let podGVK = {version: "v1", kind: "Pod"}
 
 export default class MyPlugin implements octant.Plugin {
+    // Static fields that Octant uses
     name = "<%= filename %>";
     description = "<%= description %>";
-    isModule = <%= isModule %>;
-    actionCount = 0;
-    currentNamespace = ""
 
+    // If true, the contentHandler and navigationHandler will be called.
+    isModule = <%= isModule %>;
+
+    // Octant will assign these via the constructor at runtime.
+    dashboardClient: octant.DashboardClient;
+    httpClient: octant.HTTPClient;
+
+    // Plugin capabilities
     capabilities = {
         supportPrinterConfig: [podGVK],
         supportTab: [podGVK],
@@ -18,6 +39,20 @@ export default class MyPlugin implements octant.Plugin {
             "action.octant.dev/setNamespace",
         ],
     };
+
+    // Custom plugin properties
+    actionCount: int;
+    currentNamespace: Subject<string>;
+
+    // Octant expects plugin constructors to accept two arguments, the dashboardClient and the httpClient
+    constructor(dashboardClient: octant.DashboardClient, httpClient: octant.HTTPClient) {
+        this.dashboardClient = dashboardClient;
+        this.httpClient = httpClient;
+
+        // set intial actionCount
+        this.actionCount = 0;
+        this.currentNamespace = new BehaviorSubject(this.dashboardClient.Namespace());
+    }
 
     printHandler(request: octant.ObjectRequest): octant.PrintResponse {
         return {
@@ -31,11 +66,14 @@ export default class MyPlugin implements octant.Plugin {
     actionHandler(request: octant.ActionRequest): octant.ActionResponse {
         if (request.actionName === "<%= filename %>/testAction") {
             this.actionCount += 1;
+            return
         }
 
         if (request.actionName === "action.octant.dev/setNamespace") {
-            this.currentNamespace = request.payload.namespace;
+            this.currentNamespace.next(request.payload.namespace);
+            return
         }
+
         return
     }
 
@@ -68,23 +106,6 @@ export default class MyPlugin implements octant.Plugin {
                                 }
                             } as octant.CardView
                         }]],
-                        /*
-                        buttonGroup: {
-                            config: {
-                                buttons: [{
-                                    name: "Test",
-                                    payload: {action: "<%= filename %>/testAction", foo: "bar"},
-                                    confirmation: {
-                                        title: "Confirmation?",
-                                        body: "Confirm this button click"
-                                    },
-                                }]
-                            },
-                            metadata: {
-                                type: "buttonGroup"
-                            }
-                        } as octant.ButtonGroupView
-                        */
                     },
                     metadata: {
                         type: "flexlayout"
@@ -96,7 +117,7 @@ export default class MyPlugin implements octant.Plugin {
 
     navigationHandler(): octant.Navigation {
         let nav = new c.Navigation("TS Plugin", "<%= filename %>", "cloud");
-        nav.add("test menu flyout", "nested-path", "folder")
+        nav.add("test menu flyout", "nested-path", "folder");
         return nav;
     }
 
@@ -104,8 +125,13 @@ export default class MyPlugin implements octant.Plugin {
         let contentPath = request.contentPath;
         let title = [c.createText("<%= name %>")];
         if (contentPath.length > 0) {
-            title.push(c.createText(contentPath))
+            title.push(c.createText(contentPath));
         }
+
+        var namespace: string;
+        this.currentNamespace.subscribe(data => {
+            namespace = data;
+        })
 
         return {
             content: {
@@ -120,7 +146,7 @@ export default class MyPlugin implements octant.Plugin {
                             body: c.createText("card body 1\n" +
                             contentPath + "\n" +
                             " **actionCallCount:** " + this.actionCount + "\n" +
-                            "currentNamespace: " + this.currentNamespace + "\n", true),
+                            "currentNamespace: " + namespace + "\n", true),
                         }
                     } as octant.CardView,
                     {

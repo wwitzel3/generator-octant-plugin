@@ -21,7 +21,7 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@babel/plugin-transform-object-set-prototype-of-to-assign": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
     "@babel/types": "^7.10.3",
@@ -36,6 +36,8 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.12.0"
+    "@kubernetes/client-node": "^0.12.0",
+    "regenerator-runtime": "^0.13.5",
+    "rxjs": "^6.6.0"
   }
 }

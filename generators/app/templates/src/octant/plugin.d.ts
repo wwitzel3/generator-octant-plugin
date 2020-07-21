@@ -49,8 +49,18 @@ export interface ActionResponse {
 export interface DashboardClient {
   Get(key: Key): any;
   List(key: Key): any[];
-  Create(unstructured: any): string;
+  Create(namespace: string, yaml: string): string;
   Update(unstructured: any): string;
+  Delete(key: Key): string;
+  Namespace(): string;
+}
+
+export interface HTTPClient {
+  get(url: string, callback: (response: string) => void): any;
+}
+
+export interface PluginConstructor {
+  new (dashboardClient: DashboardClient, httpClient: HTTPClient): Plugin;
 }
 
 export interface Plugin {
@@ -192,7 +202,7 @@ export interface GraphvizView extends View {
 
 export interface FlexLayoutItem {
   width: number;
-  height: number;
+  height?: number;
   view: View;
 }
 

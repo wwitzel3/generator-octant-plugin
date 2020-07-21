@@ -11,28 +11,40 @@ module.exports = {
     libraryTarget: 'var',
     libraryExport: 'default',
   },
-module: {
-  rules: [
-  {
-     test: /\.(js|jsx|tsx|ts)$/,
-     loader: 'babel-loader',
-      options: {
-    presets: [
-            ["@babel/preset-env", {
-                forceAllTransforms: true
-            }],
-            "@babel/preset-typescript"
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|tsx|ts)$/,
+        loader: "babel-loader",
+        exclude: {
+          test: /node_modules\/core-js/,
+        },
+        options: {
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                forceAllTransforms: true,
+                corejs: {
+                  version: 3,
+                  proposals: true,
+                },
+                useBuiltIns: "entry",
+              },
+            ],
+            "@babel/preset-typescript",
+          ],
+          plugins: [
+            "@babel/plugin-syntax-dynamic-import",
+            "@babel/proposal-class-properties",
+            "@babel/proposal-object-rest-spread",
+            "@babel/plugin-transform-object-set-prototype-of-to-assign",
+          ],
+        },
+      },
     ],
-    plugins: [
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread",
-        "@babel/plugin-transform-object-set-prototype-of-to-assign"
-    ]
-
-    }
-  }]
-},
-resolve: {
-  extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
-},
+  },
+  resolve: {
+    extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+  },
 };
