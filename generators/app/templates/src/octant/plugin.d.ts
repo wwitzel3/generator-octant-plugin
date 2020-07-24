@@ -49,13 +49,14 @@ export interface ActionResponse {
 export interface DashboardClient {
   Get(key: Key): any;
   List(key: Key): any[];
-  Create(namespace: string, yaml: string): string;
-  Update(unstructured: any): string;
+  Create(namespace?: string, yaml: string): string;
+  Update(namespace?: string, yaml: string): string;
   Delete(key: Key): string;
 }
 
 export interface HTTPClient {
-  get(url: string, callback: (response: string) => void): any;
+  get(url: string, callback: (response: string) => void): string;
+  getJSON(url: string, callback: (response: string) => void): any;
 }
 
 export interface PluginConstructor {
