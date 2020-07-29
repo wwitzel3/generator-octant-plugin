@@ -41,7 +41,7 @@ export default class MyPlugin implements octant.Plugin {
     };
 
     // Custom plugin properties
-    actionCount: int;
+    actionCount: number;
     currentNamespace: Subject<string>;
 
     // Octant expects plugin constructors to accept two arguments, the dashboardClient and the httpClient
@@ -63,18 +63,18 @@ export default class MyPlugin implements octant.Plugin {
         };
     }
 
-    actionHandler(request: octant.ActionRequest): octant.ActionResponse {
+    actionHandler(request: octant.ActionRequest): octant.ActionResponse | void {
         if (request.actionName === "<%= filename %>/testAction") {
             this.actionCount += 1;
-            return
+            return;
         }
 
         if (request.actionName === "action.octant.dev/setNamespace") {
             this.currentNamespace.next(request.payload.namespace);
-            return
+            return;
         }
 
-        return
+        return;
     }
 
     tabHandler(request: octant.ObjectRequest): octant.TabResponse {
@@ -128,7 +128,7 @@ export default class MyPlugin implements octant.Plugin {
             title.push(c.createText(contentPath));
         }
 
-        var namespace: string;
+        let namespace = "<unknown>";
         this.currentNamespace.subscribe(data => {
             namespace = data;
         })

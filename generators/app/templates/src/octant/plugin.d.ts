@@ -75,7 +75,7 @@ export interface Plugin {
   objectStatusHandler?: (request: ObjectRequest) => ObjectStatusResponse;
   navigationHandler?: () => Navigation;
   contentHandler?: (request: ContentRequest) => ContentResponse;
-  actionHandler?: (request: ActionRequest) => ActionResponse;
+  actionHandler?: (request: ActionRequest) => ActionResponse | void;
 }
 
 export interface GroupVersionKind {
