@@ -48,7 +48,7 @@ export function createGridAction(name: string, actionPath: string, payload: {[ke
 export class Navigation implements octant.Navigation {
   title: string;
   path: string;
-  iconName: string;
+  iconName?: string;
 
   children: octant.Navigation[];
 
@@ -77,7 +77,7 @@ export class FlexLayout implements octant.FlexLayoutView {
   metadata = {
     type: "flexlayout",
     accessor: "",
-    title: []
+    title: [] as octant.View[],
   }
 
   constructor(title: string) {
@@ -89,7 +89,7 @@ export class FlexLayout implements octant.FlexLayoutView {
       config: {
         value: title
       },
-    }];
+    } as octant.View];
     this.config = {
       sections: [],
     }
@@ -103,7 +103,7 @@ export class FlexLayout implements octant.FlexLayoutView {
 export class Table implements octant.TableView {
   metadata = {
     type: "table",
-    title: []
+    title: [] as octant.View[],
   }
 
   config: {
@@ -114,7 +114,7 @@ export class Table implements octant.TableView {
     filters: octant.TableFilters;
   }
 
-  constructor(title: string, columns?: octant.TableColumn[], rows?: octant.TableRow[], emptyMsg?: string) {
+  constructor(title: octant.View[], columns?: octant.TableColumn[], rows?: octant.TableRow[], emptyMsg?: string) {
     this.config = {
       columns: [],
       rows: [],
@@ -123,14 +123,7 @@ export class Table implements octant.TableView {
       loading: false,
     }
 
-    this.metadata.title = [{
-      metadata: {
-        type: "text"
-      },
-      config: {
-        value: title
-      },
-    }]
+    this.metadata.title = title;
 
     if (columns !== undefined) {
       this.config.columns = columns;

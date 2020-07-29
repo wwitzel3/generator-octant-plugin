@@ -49,8 +49,8 @@ export interface ActionResponse {
 export interface DashboardClient {
   Get(key: Key): any;
   List(key: Key): any[];
-  Create(namespace?: string, yaml: string): string;
-  Update(namespace?: string, yaml: string): string;
+  Create(namespace: string, yaml: string): string;
+  Update(namespace: string, yaml: string): string;
   Delete(key: Key): string;
 }
 
@@ -235,7 +235,7 @@ export interface GridAction {
   actionPath: string;
   payload: {};
   confirmation?: Confirmation;
-  type: string;
+  type?: string;
 }
 
 export interface GridActionsView extends View {

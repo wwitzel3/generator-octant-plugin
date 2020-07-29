@@ -60,8 +60,7 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": [
-      "node_modules",
-      "./node_modules",
-  ],
+  "exclude": [
+      "./node_modules"
+  ]
 }
